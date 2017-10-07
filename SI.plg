@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: SI - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP47.tmp" with contents
+[
+/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "STRICT" /Fp"Release/SI.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"C:\Documents and Settings\Administrator\My Documents\Development\SI\SI.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP47.tmp" 
+Creating temporary file "C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP48.tmp" with contents
+[
+ddraw.lib dsound.lib dxguid.lib dinput.lib winmm.lib cdx.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/SI.pdb" /machine:I386 /out:"Release/SI.exe" 
+".\Release\CDXBitmapFont.obj"
+".\Release\CDXHorizTextScroller.obj"
+".\Release\cdxhpc.obj"
+".\Release\Cdxmenu.obj"
+".\Release\Cdxstar.obj"
+".\Release\CDXVertTextScroller.obj"
+".\Release\SI.obj"
+".\Release\SI.res"
+]
+Creating command line "link.exe @C:\DOCUME~1\ADMINI~1\LOCALS~1\Temp\RSP48.tmp"
+<h3>Output Window</h3>
+Compiling...
+SI.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+SI.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

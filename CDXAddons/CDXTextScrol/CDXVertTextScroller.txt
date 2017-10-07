@@ -1,0 +1,82 @@
+Documentation file for class CDXVertTextScoller
+
+
+(c) 4/1999 by Ioannis Karagiorgos
+              EMail: karagior@pluto.fernuni-hagen.de
+    
+    
+contributions to the CDX project and to everyone who uses and extends it!
+
+
+
+Purpose of CDXVertTextScroller class:
+-------------------------------
+  The CDXVertTextScroller class is able to display vertical scrolling text.
+  You supply the class with a text and output rectangle and can display the
+  text in the output rectangle and scroll it up and down.
+  The text is formatted into separate lines automatically, you can support
+  this by inserting linefeeds (\n) in the text string.
+  
+  
+Reference:
+----------
+
+   CDXVertTextScroller( CDXScreen * Scr , RECT * ClipRectangle , 
+                        char * ScrollText , int TextJustify, 
+                        int LineSpace , CDXBitmapFont * Font )
+        - Scr               = pointer to the CDXScreen object
+        - ClipRectabgle     = output rectangle for the scroll text
+        - Scrolltext        = text, you can insert linefeeds in the text to control the way the
+                              class breaks the text into lines
+                              e.g. "Hello world\nThis is a scroll text\n....."
+        - TextJustify [OPTIONAL } = How is the text displayed?
+                                     CDX_CENTERJUSTIFY = each line is displayed centered
+                                     CDX_LEFTJUSTIFY   = each line is displayed left justified
+                                     CDX_RIGHTJUSTIFY  = each line is displayed right justified
+        - LineSpace    [OPTIONAL] = space between the text lines, default = 3
+        - Font         [OPTIONAL] = CDXBitmapFont object for the scrolltext font, default = NULL
+                                    You can pass a CDXBitmapFont object, if you don't, the class
+                                    will create an own font, Courier, height=12, Color=RGB(255,255,255)
+
+        - This constructor creates a CDXVertTextScroller object
+
+
+    HRESULT Draw( CDXSurface * lpDDS )
+        - lpDDS     = destination surface for text output
+        - HRESULT   = error code of the last blit
+        
+        - This function draws the text with its background color, for transparent drawing look next function
+        
+        
+    HRESULT DrawTrans( CDXSurface * lpDDS )
+        - lpDDS     = destination surface for text output
+        - HRESULT   = error code of the last blit
+        
+        - This function draws the text transparent
+        
+        
+    void ScrollUp( int Count )
+        - Count [OPTIONAL] = number of pixels to scroll the text up, default=1
+        
+        - This function scrolls the scroll text Count lines up
+        
+        
+    void ScrollDown( int Count )
+        - Count [OPTIONAL] = number of pixels to scroll the text down, default=1        
+        
+        - This function scrolls the scroll text Count lines down
+        
+        
+    void ResetPosition()
+        - This function resets the scrolltext position.
+          The scrolltext is one pixel under the bottom of the display rectangle
+          If you scroll the text up it will become visible.
+          
+    BOOL IsTopEnd()
+        - This function returns TRUE if the text runs out of the screen
+          while you scroll it upwards, else FALSE.
+          
+    BOOL IsBottomEnd()
+        - This function returns TRUE if the text runs out of the screen
+          while you scroll it upwards, else FALSE.
+                              

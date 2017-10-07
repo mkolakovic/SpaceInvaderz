@@ -1,0 +1,108 @@
+Documentation file for class CDXHorizTextScoller
+
+
+(c) 4/1999 by Ioannis Karagiorgos
+              EMail: karagior@pluto.fernuni-hagen.de
+    
+    
+contributions to the CDX project and to everyone who uses and extends it!
+
+
+
+Purpose of CDXHorizTextScroller class:
+-------------------------------
+  The CDXVertTextScroller class is able to display horizontal scrolling text.
+  You can also deform the scroll text vertical.
+  The text is displayed top aligned in the display rectangle.
+  You supply the class with a text and output rectangle and can display the
+  text in the output rectangle and scroll it left and right.
+  There are two ways of displaying the scrolltext.
+  TextWrap = true = text wraps around if it reaches its end,
+  TextWrap = false = text keeps invisible if it scrolls out of its display rectangle.
+  
+  
+Reference:
+----------
+
+   CDXHorizTextScroller( CDXScreen * Scr , RECT * ClipRectangle , 
+                         char * ScrollText , bool TextWrap, 
+                         CDXBitmapFont  )
+        - Scr               = pointer to the CDXScreen object
+        - ClipRectabgle     = output rectangle for the scroll text
+        - Scrolltext        = text
+        - TextWrap          = How is the text displayed?
+                                true  =tText wraps around if it leaves display rectangle
+                                false = text is invisible if it leaves display rectangle
+        - Font [OPTIONAL]   = CDXBitmapFont object for the scrolltext font, default = NULL
+                                    You can pass a CDXBitmapFont object, if you don't, the class
+                                    will create an own font, Courier, height=12, Color=RGB(255,255,255)
+
+        - This constructor creates a CDXHorizTextScroller object
+
+
+    HRESULT Draw( CDXSurface * lpDDS )
+        - lpDDS     = destination surface for text output
+        - HRESULT   = error code of the last blit
+        
+        - This function draws the text with its background color, for transparent drawing look next function
+        
+        
+    HRESULT DrawTrans( CDXSurface * lpDDS )
+        - lpDDS     = destination surface for text output
+        - HRESULT   = error code of the last blit
+        
+        - This function draws the text transparent
+        
+        
+    HRESULT DrawOffset( CDXSurface * lpDDS , int * OffsetArray )
+        - lpDDS         = destination surface for text output
+        - OffsetArray   = integer array with offset values for every text column
+        - HRESULT       = error code of the last blit
+        
+        - This function draws the text deformed. To the y position of every displayed row of the text
+          an integer value from the offset array is added, so the text is deformed vertical.
+          The offset array has to have the same size as the display rectangle width.
+          For an example of how to use this effect, look into the demonstration code!
+        
+        
+    HRESULT DrawOffsetTrans( CDXSurface * lpDDS , int * OffsetArray )
+        - lpDDS         = destination surface for text output
+        - OffsetArray   = integer array with offset values for every text column
+        - HRESULT       = error code of the last blit
+        
+        - This function draws the text transparent deformed. 
+          To the y position of every displayed row of the text
+          an integer value from the offset array is added, so the text is deformed vertical.
+          The offset array has to have the same size as the display rectangle width.
+          For an example of how to use this effect, look into the demonstration code!
+
+        
+        
+    void ScrollLeft( int Count )
+        - Count [OPTIONAL] = number of pixels to scroll the text left, default=1
+        
+        - This function scrolls the scroll text Count lines up
+        
+        
+    void ScrollRight( int Count )
+        - Count [OPTIONAL] = number of pixels to scroll the text down, default=1        
+        
+        - This function scrolls the scroll text Count lines down
+        
+        
+    void ResetPosition()
+        - This function resets the scrolltext position.
+          The scrolltext position is set to its rightmost position.
+
+    BOOL IsLeftEnd()
+        - This function returns TRUE if the text runs out of the screen
+          while you scroll it to the left, else FALSE.
+          NOTE: This only works for texts which dont wrap around!
+          If the text wraps around, then it has no end ;-)
+          
+    BOOL IsRightEnd()
+        - This function returns TRUE if the text runs out of the screen
+          while you scroll it to the right, else FALSE.
+          NOTE: This only works for texts which dont wrap around!
+          If the text wraps around, then it has no end ;-)
+                    

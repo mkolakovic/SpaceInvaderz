@@ -1,0 +1,197 @@
+Documentation file for class CDXBitmapfont
+
+Note: This is a version modified by Jimb Esser to support CDX 3.0 and to have
+better lost surface recovery, along with some other minor bug fixes.
+
+(c) 4/1999 by Ioannis Karagiorgos
+              EMail: karagior@pluto.fernuni-hagen.de
+    
+    
+contributions to the CDX project and to everyone who uses and extends it!
+
+
+
+Purpose of CDXBitmapFont class:
+-------------------------------
+  The CDXBitmapfont class is intended to deliver a faster way of drawing text
+  using DirectX. CDXBitmapFont creates an offscreen surface with the selected
+  font on it and blits the characters to the desired CDXSurface.
+  This should be faster than using the standard windows text output routines.
+  You can select the font, size, Attributes, fore- and backgroundcolor and the 
+  colorkey of each font.
+  Text can be output normal, with transparent background, clipped,
+  and left/right/center aligned.
+  There are alos functions to calculate the width and height of characters
+  or complete string widths.
+  
+  CAUTION: If you try to change the settings of a created font, e.g. you want to
+  change the font color from red to green, then you can do this but with a big
+  performance decrease because the class has to repaint its font surface to create
+  the new font with the desired color.
+  
+  So you should create a new font object for every font/style/color change  you want.
+  The only change that does not force the font class to repaint its internal font
+  surface is the change of the colorkey!
+  
+  
+Reference:
+----------
+
+   CDXBitmapFont( CDXScreen * Scr )
+        - Scr is a pointer to the CDXScreen object
+        
+        - This constructor creates a font "Courier" , height=12 , Color=RGB(255,255,255) ,
+                                     backgroundcolor = RGB(0,0,0) , colorkey = RGB(0,0,0) ,
+                                     Attributes = FW_NORMAL = standard font
+                                     surface is allocated in video memory first and then in system memory 
+                                     if there is no space in video memory
+                                     
+                                     
+   CDXBitmapFont( CDXScreen * Scr , char * FontNam , int Height , int Color, int ColKey ,
+                  int BackColor , int Attributes , int SurfaceType )
+        - Scr is a pointer to the CDXScreen object
+        - Fontnam = name of the font, e.g. Arial, Courier, etc.
+        - Height = font height
+        - Color       [OPTIONAL] = font color, default = RGB(255,255,255)
+        - ColKey      [OPTIONAL] = color key for transparent blits, default = RGB(0,0,0)
+			if your screen is in 8bit mode, then this parameter must be
+			the index of the color (dependant on palette), for any other
+			bitdepth, pass in an RGB(r,g,b) macro parameter
+        - BackColor   [OPTIONAL] = background color of the text, default = RGB(0,0,0)
+        - Attributes  [OPTIONAL] = font attributes, e.g. FW_NORMAL = normal font, FW_BOLD = bold font, ... , 
+                                   default = FW_NORMAL
+        - SurfaceType [OPTIONAL] = where should the internal font surface be allocated ? default = CDXMEM_VIDTHENSYS
+            CDXMEM_VIDTHENSYS    = surface is allocated in video memory first and then in system memory 
+                                   if there is no space in video memory ( best performance )
+            CDXMEM_VIDEOONLY     = surface is allocated in video memory only, if no space then error ( best performance )
+            CDXMEM_SYSTEMONLY    = surface is allocated ion system memory only ( poorer performance )
+        
+        - This constructor creates a font with the selected properties
+
+
+    HRESULT Draw( int X , int Y , char * Text , CDXSurface * lpDDest , int Length )
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - length [OPTIONAL] = length of text string, default = -1 = draw complete string
+          if you choose e.g. 3 the function only draws the first 3 characters of the string
+        - HRSEULT           = returns the last DirectDraw Blit error code
+        
+        - This function draws text at the specified location.
+          The text is drawn with its background color, for transparent draw look next function
+
+          
+    HRESULT DrawTrans( int X , int Y , char * Text , CDXSurface * lpDDest , int Length )
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - length [OPTIONAL] = length of text string, default = -1 = draw complete string
+          if you choose e.g. 3 the function only draws the first 3 characters of the string          
+          
+        - This function draws text at the specified location transparent.   
+        
+
+    HRESULT DrawClipped( int X , int Y , char * Text , CDXSurface * lpDDest , LPRECT ClipRect , int Length )        
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - ClipRect          = clip rectangle in which the text is clipped
+        - length [OPTIONAL] = length of text string, default = -1 = draw complete string
+          if you choose e.g. 3 the function only draws the first 3 characters of the string          
+        - HRSEULT           = returns the last DirectDraw Blit error code
+        
+        - This function draws text at the specified location clipped.   
+
+    
+    HRESULT DrawTransClipped( int X , int Y , char * Text , CDXSurface * lpDDest , LPRECT ClipRect , int Length )        
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - ClipRect          = clip rectangle in which the text is clipped
+        - length [OPTIONAL] = length of text string, default = -1 = draw complete string
+          if you choose e.g. 3 the function only draws the first 3 characters of the string          
+        - HRSEULT           = returns the last DirectDraw Blit error code
+        
+        - This function draws text at the specified location transparent and clipped.   
+        
+        
+    HRESULT DrawAligned( int X , int Y , int Width , char * Text , CDXSurface * lpDDest , int Align )        
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Width             = width of output area, text is aligned within this area
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - Align             = alignment of text 
+                                CDX_CENTERJUSTIFY = centered
+                                CDX_RIGHTJUSTIFY  = right aligned
+        - HRSEULT           = returns the last DirectDraw Blit error code
+        
+        - This function draws text at the specified location and width middle/right aligned
+        
+        
+    HRESULT DrawAlignedTrans( int X , int Y , int Width , char * Text , CDXSurface * lpDDest , int Align )        
+        - X                 = x-coord of the text
+        - Y                 = y-coord of the text
+        - Width             = width of output area, text is aligned within this area
+        - Text              = pointer to text string
+        - lpDDest           = destination surface for text output
+        - Align             = alignment of text 
+                                CDX_CENTERJUSTIFY = centered
+                                CDX_RIGHTJUSTIFY  = right aligned
+        - HRSEULT           = returns the last DirectDraw Blit error code
+        
+        - This function draws text at the specified location transparent and width center/right aligned        
+        
+        
+    void SetFont( char * FontNam , int Height , int Color , int Attributes = FW_NORMAL )
+        - Fontnam                   = name of the font
+        - Height                    = height of font
+        - Color                     = font color
+        - Attributes [OPTIONAL]     = font attributes, default = FW_NORMAL
+        
+        - This function changes the font. CAUTION: time costly
+        
+        
+    void SetColor( int Color )        
+        - Color     = font color
+        
+        - This function changes the font color. CAUTION: time costly
+        
+        
+    void SetBackgroundColor( int Color )        
+        - Color     = font background color
+        
+        - This function changes the font background color. CAUTION: time costly
+        
+                
+    void SetColorKey( int ColorKey )        
+        - ColorKey  = ColorKey for transparent text
+        
+        
+    int GetCharacterWidth( char ch )
+        - ch    = desired character 
+        
+        - This function returns the width of charcter ch
+        
+        
+    int GetCharacterHeight( char ch )
+        - ch    = desired character 
+        
+        - This function returns the height of charcter ch
+        
+        
+    int GetTextWidth( char * Text )
+        - Text    = text string
+        
+        - This function returns the width of the string Text
+        
+      
+    void Restore( )
+        - This function restores the internal font surface. This could happen, when
+          surfaces are lost
+          
+        

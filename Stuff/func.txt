@@ -1,0 +1,165 @@
+BOOL cdx_Init( void )
+{
+	// Create the CDXSreen object
+	Screen = new CDXScreen();
+	if (Screen==NULL)
+        CDXError( NULL , "Could not create CDXScreen object" );
+
+	// enable triple buffering
+	Screen->SetTripleBuffering(TripleBuffer);
+
+	// start app 
+    StartVideoMode();
+
+//	LoadResources();
+//	CreateObjects();
+
+	
+	return TRUE;
+}
+
+
+// ---------------------------------------------------------------------------
+//
+// Name:        cdx_DeInit          
+//
+// Function:    handles cleanup of CDX objects   
+//                  
+//
+// Parameters:      None. 
+//
+// Return value:    None.
+//
+// ---------------------------------------------------------------------------
+void cdx_DeInit( void )
+{
+	SAFEDELETE( Ship	  );
+	SAFEDELETE( SI		  );
+	SAFEDELETE(	Resource  );
+	SAFEDELETE( Sound     );
+	SAFEDELETE( Thunder   );
+	SAFEDELETE( LogoT     );
+	SAFEDELETE( TitleT    );
+	SAFEDELETE( SiT       );
+	SAFEDELETE( ShipT     );
+	SAFEDELETE( Screen    );
+}
+
+
+// ---------------------------------------------------------------------------
+//
+// Name:        cdx_DoFrame        
+//
+// Function:    performs drawing of the current frame   
+//                  
+//
+// Parameters:      None. 
+//
+// Return value:    None.
+//
+// ---------------------------------------------------------------------------
+void cdx_DoFrame()
+{
+    Back = Screen->GetBack();
+	// clear the current frame
+	Back->Fill(0);
+	
+
+	Screen->Flip(TRUE, FALSE, TRUE);	 // Flip the back buffer to the front
+}
+
+
+// ---------------------------------------------------------------------------
+//
+// Name:        LoadResources        
+//
+// Function:    Loads all bitmaps and .wav files from DATA_FILE  
+//                  
+//
+// Parameters:      None. 
+//
+// Return value:    None.
+//
+// ---------------------------------------------------------------------------
+static void LoadResources( void )
+{
+	/***
+	Load the WAD file and get all the data.
+	***/
+	Resource = new CDXResource();
+	if(FAILED(Resource->Open( DATA_FILE )))
+		CDXError( Screen , "could not open Data file" );
+
+char *ShipR = "";
+//	LogoR   =	Resource->GetFile("l1.bmp"   );	
+//	TitleR	=	Resource->GetFile("title.bmp");	
+//	if(FAILED(ShipR = Resource->GetFile("ship.bmp" )))
+//		CDXError( Screen , "could not load SHIP.BMP" );
+//	SiR     =	Resource->GetFile("si.bmp"   );	
+//	ThunderR=	Resource->GetFile("g.bmp"    );	
+//	UfoR    =	Resource->GetFile("ufo.bmp"  );
+	
+	Resource->Close();
+
+	/***
+	Now create their CDX objects
+	***/
+
+	//Sound
+/*	Sound = new CDXSound;
+	Sound->Create(g_hWnd);
+	Sound->Enable3d();
+
+	Thunder = new CDXSoundBuffer(); 
+	Thunder->Load( Sound, ThunderR );
+
+	//Tiles
+	LogoT =	new CDXTile();
+	if( LogoT->Create( Screen, LogoR, 350, 150, 1 ) == FALSE )
+		CDXError( Screen , "could not load LOGO" );
+	TitleT = new CDXTile();
+	if( LogoT->Create( Screen, TitleR, 350, 150, 1) == FALSE )
+		CDXError( Screen , "could not load TITLE" );
+	ShipT = new CDXTile();
+	if( ShipT->Create( Screen , ShipR , 64 , 32 , 2 ) == FALSE )
+        CDXError( Screen , "could not load the Ship" );
+	SiT = new CDXTile();
+	if( SiT->Create( Screen , SiR , 352 , 32 , 11 ) == FALSE )
+        CDXError( Screen , "could not load Invaders" );
+	UfoT = new CDXTile();
+	if( UfoT->Create( Screen , UfoR , 64 , 32 , 2 ) == FALSE )
+        CDXError( Screen , "could not load UFO" );
+*/
+}
+
+
+// ---------------------------------------------------------------------------
+//
+// Name:        CreateObjects        
+//
+// Function:    Creates CDX objects from resources.  
+//                  
+//
+// Parameters:      None. 
+//
+// Return value:    None.
+//
+// ---------------------------------------------------------------------------
+/* void CreateObjects( void )
+{
+	/***
+	Create Sprites
+	***/
+/*	Ship = new CDXSprite();
+	Ship->Create(ShipT);
+	Ship->SetPosY(440);
+	Ship->SetColorKey(0);
+
+	SI = new CDXSprite();
+	SI->Create( SiT );
+	SI->SetColorKey(0);
+
+
+
+}
+*/

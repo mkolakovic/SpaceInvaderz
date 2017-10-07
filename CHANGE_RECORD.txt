@@ -1,0 +1,9 @@
+December 12 2001
+
+1) TIME_TO_WAIT_INVADERS changed from 500ms to 100ms
+
+2) New state "NEXT_LEVEL" added (not yet implemented)
+
+3) ResetShip() function added so if hit ship will go to left corner and SI won't be restored.
+
+4) Pressing key "3" will toggle between single and 3-bullet fire. (must be level 3 at least?????)

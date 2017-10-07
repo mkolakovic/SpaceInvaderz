@@ -1,0 +1,43 @@
+> I havn't ever tried to use it, but eventually i'm going to want to wrap all
+> my stuff up into a single file to avoid having to worry about N number of
+> files lying around.  How does this work?
+
+> How will I load the resources out of the single file later?  Say I was
+> wanting to load the "SPLASH.BMP" into a surface, I just can't tell it to
+> create a surface and load ("SPLASH") into it can i?
+
+This code should help:
+
+// create our CDX objects
+CDXScreen *screen;
+CDXSurface *surface;
+CDXResource *res;
+
+// create our screen
+screen = new CDXScreen();
+
+// create our resource object
+res = new CDXResource();
+
+// open a resource file
+res->Open("MYRES.WAD");
+
+// create a CDXSurface from a bitmap resource in the file
+surface = new CDXSurface(screen, res->GetFile("MYBITMAP.BMP"),
+CDXMEM_VIDTHENSYS);
+
+// draw the new surface to the screen and flip
+screen->GetBack()->Draw(surface);
+screen->Flip();
+
+The drawback is that CDXResource kinda sucks. It writes out a temporary file
+called
+CDX.TMP each time you call GetFile so it's a bit of a hog if you have large
+files
+you're extracting. CDXResource needs someone to look after it and make it a
+little
+better but it does the job. It would be nice if someone fixed it up to load the
+files directly in memory but since CDX uses disk files, what's the point? Also,
+the resouce builder program isn't very good in that it needs to be able to open
+resource files and move things around in them. A good weekend project for
+someone.
