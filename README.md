@@ -9,7 +9,7 @@ of the game available and this was my attempt to re-create it from memory.
 ![Alt Text](/MD/si2.jpg)
 
 
-To play, download [SpaceInvaderz.zip!](SpaceInvaderz/SpaceInvaderz.zip)
+To play, download [SpaceInvaderz.zip!](/SpaceInvaderz.zip)
 
 [Click for independent game review!](http://www.completelyfreesoftware.com/reviews/gg_w95_sinvaderz32.html)
 
