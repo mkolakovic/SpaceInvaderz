@@ -1,6 +1,6 @@
 ![Alt Text](/MD/title.jpg)
 
-Clone of the popular game I created in 2001 for Windows platform using 
+Clone of the popular game Space Invaders I created in 2001 for Windows platform using 
 Visual Studio-6 and CDX-3.0 lib. At that time there was no Windows clone 
 of the game available and this was my attempt to re-create it from memory.
 
